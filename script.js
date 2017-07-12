@@ -31,36 +31,37 @@
         }
     }
 
-
-
-    $.ajax({
-      url: 'https://privemd.atlassian.net/rest/api/2/search?jql=project%20in%20(PAND%2C%20PANDP%2C%20PIOS%2C%20PIOSP%2C%20PWEB)%20AND%20Sprint%20in%20(openSprints())', //https://privemd.atlassian.net/rest/api/2/project
-      type: 'GET',
-      beforeSend: function(xhr){
-          xhr.setRequestHeader('Authorization', 'Basic ZnRhbmdsYW86VGlkdXMjITEyMw==');
-          xhr.setRequestHeader('Content-Type', 'application/json');
-      },
-      success(response) {
-        var issues = response.issues;
-        console.log(issues);
-        var html = '';
-        issues.forEach(function(issue) {
-            html+='<tr onclick="window.open(\'https://privemd.atlassian.net/browse/'+ issue.key +'\')" class="'+ getClass(issue.fields.status.name) +'">';
-            html+='<td>'+ issue.key +'</td>';
-            html+='<td>'+ getPlatform(issue.key); +'</td>';
-            html+='<td>'+ issue.fields.summary +'</td>';
-            html+='<td>'+ issue.fields.status.name +'</td>';
-            html+='</tr>';
+    setInterval(function() {
+        $.ajax({
+          url: 'https://privemd.atlassian.net/rest/api/2/search?jql=project%20in%20(PAND%2C%20PANDP%2C%20PIOS%2C%20PIOSP%2C%20PWEB)%20AND%20Sprint%20in%20(openSprints())', //https://privemd.atlassian.net/rest/api/2/project
+          type: 'GET',
+          beforeSend: function(xhr){
+              xhr.setRequestHeader('Authorization', 'Basic ZnRhbmdsYW86VGlkdXMjITEyMw==');
+              xhr.setRequestHeader('Content-Type', 'application/json');
+          },
+          success(response) {
+            var issues = response.issues;
+            // console.log(issues);
+            var html = '';
+            issues.forEach(function(issue) {
+                html+='<tr onclick="window.open(\'https://privemd.atlassian.net/browse/'+ issue.key +'\')" class="'+ getClass(issue.fields.status.name) +'">';
+                html+='<td>'+ issue.key +'</td>';
+                html+='<td>'+ getPlatform(issue.key); +'</td>';
+                html+='<td>'+ issue.fields.summary +'</td>';
+                html+='<td>'+ issue.fields.status.name +'</td>';
+                html+='</tr>';
+            });
+            $('#issues tbody').html('');
+            $('#issues tbody').append(html);
+            // response.issues()
+            // console.log('Success:', response.issues);
+          },
+          error(response) {
+            console.log("Error!");
+            // console.log('Error:', response);
+          }
         });
-        $('#issues tbody').append(html);
-        // response.issues()
-        // console.log('Success:', response.issues);
-      },
-      error(response) {
-        console.log("Error!");
-        // console.log('Error:', response);
-      }
-    });
+    },1000);
 
 })();
 
