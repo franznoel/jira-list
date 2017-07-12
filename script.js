@@ -44,7 +44,7 @@
         console.log(issues);
         var html = '';
         issues.forEach(function(issue) {
-            html+='<tr class="'+ getClass(issue.fields.status.name) +'">';
+            html+='<tr onclick="window.open(\'https://privemd.atlassian.net/browse/'+ issue.key +'\')" class="'+ getClass(issue.fields.status.name) +'">';
             html+='<td>'+ issue.key +'</td>';
             html+='<td>'+ getPlatform(issue.key); +'</td>';
             html+='<td>'+ issue.fields.summary +'</td>';
