@@ -4,7 +4,7 @@
         var project = key.substring(0,5);
         switch(project) {
             case 'PWEB-':
-                return 'Android Doctor';
+                return 'Web Dispatch';
             case 'PANDP':
                 return 'Android Patient';
             case 'PAND-':
