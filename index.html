@@ -2,14 +2,23 @@
 <html>
     <head>
         <title>Jira List</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
         <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        <link rel="stylesheet" href="styles.css">
+        <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css" /> -->
+        <link rel="stylesheet" href="styles.css" />
     </head>
     <body>
         <div class="container">
             <h3>Jira List</h3>
+            <div class="alert alert-info">
+                <b>Note:</b>
+                <ol>
+                    <li>Shown below are tickets inside Active Sprints only.</li>
+                    <li>Clicking on one of the ticket redirects to Jira.</li>
+                </ol>
+            </div>
             <div class="row">
                 <div class="col-md-12">
                     <table id="issues" class="table table-condensed table-hover">
@@ -19,7 +28,6 @@
                                 <th>Platform</th>
                                 <th>Name</th>
                                 <th>Status</th>
-                                <th>Notes</th>
                             </tr>
                         </thead>
                         <tbody>

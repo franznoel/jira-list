@@ -32,8 +32,9 @@
     }
 
 
+
     $.ajax({
-      url: 'https://privemd.atlassian.net/rest/api/2/search?jql=project%20in%20(PAND,%20PANDP,%20PIOS,%20PIOSP,%20PWEB)%20ORDER%20BY%20lastViewed%20DESC', //https://privemd.atlassian.net/rest/api/2/project
+      url: 'https://privemd.atlassian.net/rest/api/2/search?jql=project%20in%20(PAND%2C%20PANDP%2C%20PIOS%2C%20PIOSP%2C%20PWEB)%20AND%20Sprint%20in%20(openSprints())', //https://privemd.atlassian.net/rest/api/2/project
       type: 'GET',
       beforeSend: function(xhr){
           xhr.setRequestHeader('Authorization', 'Basic ZnRhbmdsYW86VGlkdXMjITEyMw==');
@@ -49,7 +50,6 @@
             html+='<td>'+ getPlatform(issue.key); +'</td>';
             html+='<td>'+ issue.fields.summary +'</td>';
             html+='<td>'+ issue.fields.status.name +'</td>';
-            html+='<td></td>';
             html+='</tr>';
         });
         $('#issues tbody').append(html);
