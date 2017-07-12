@@ -16,7 +16,7 @@
             default:
                 return '';
         }
-    }
+    };
 
     var getClass = function (status) {
         switch(status) {
@@ -29,7 +29,7 @@
             default:
                 return '';
         }
-    }
+    };
 
     setInterval(function() {
         $.ajax({

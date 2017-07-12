@@ -1,4 +1,7 @@
 #issues tbody tr {
     cursor:pointer;
 }
+.plugin-link {
+    text-decoration: underline;
+}
 
