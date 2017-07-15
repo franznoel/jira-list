@@ -52,6 +52,11 @@
         }
     }
 
+    var getTimeEstimate = function(time) {
+        if (time === null) return "";
+        return Math.floor(time/(3600)) + " hours";
+    }
+
     setInterval(function() {
         $.ajax({
           url: 'https://privemd.atlassian.net/rest/api/2/search?jql=project%20in%20(PAND%2C%20PANDP%2C%20PIOS%2C%20PIOSP%2C%20PWEB)%20AND%20Sprint%20in%20(openSprints())', //https://privemd.atlassian.net/rest/api/2/project
@@ -67,7 +72,8 @@
             var html = '';
             issues.forEach(function(issue) {
                 var versionName = getVersion(issue.fields.fixVersions),
-                    priority = getPriority(issue.fields.priority.id);
+                    priority = getPriority(issue.fields.priority.id),
+                    hours = getTimeEstimate(issue.fields.timeestimate);
 
                 html+='<tr onclick="window.open(\'https://privemd.atlassian.net/browse/'+ issue.key +'\')" class="'+ getClass(issue.fields.status.name) +'">';
                 html+='<td>'+ issue.key +'</td>';
@@ -75,13 +81,12 @@
                 html+='<td>'+ getPlatform(issue.key) +'</td>';
                 html+='<td>'+ issue.fields.summary +'</td>';
                 html+='<td>'+ versionName +'</td>';
+                html+='<td>'+ hours +'</td>';
                 html+='<td>'+ issue.fields.status.name +'</td>';
                 html+='</tr>';
             });
             $('#issues tbody').html('');
             $('#issues tbody').append(html);
-            // response.issues()
-            // console.log('Success:', response.issues);
           },
           error(response) {
             console.log("Error!");
