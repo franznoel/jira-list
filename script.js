@@ -63,7 +63,7 @@
           success(response) {
             var issues = response.issues;
 
-            console.log(issues);
+            // console.log(issues);
             var html = '';
             issues.forEach(function(issue) {
                 var versionName = getVersion(issue.fields.fixVersions),
