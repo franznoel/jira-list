@@ -35,6 +35,23 @@
         return (version.length >= 1) ? version[0].name : '';
     }
 
+    var getPriority = function(priority) {
+        switch(priority) {
+            case "1":
+                return 'Highest';
+            case "2":
+                return 'High';
+            case "3":
+                return 'Medium';
+            case "4":
+                return 'Low';
+            case "5":
+                return 'Lowest';
+            default:
+                return 'Blocker';
+        }
+    }
+
     setInterval(function() {
         $.ajax({
           url: 'https://privemd.atlassian.net/rest/api/2/search?jql=project%20in%20(PAND%2C%20PANDP%2C%20PIOS%2C%20PIOSP%2C%20PWEB)%20AND%20Sprint%20in%20(openSprints())', //https://privemd.atlassian.net/rest/api/2/project
@@ -49,10 +66,12 @@
             console.log(issues);
             var html = '';
             issues.forEach(function(issue) {
-                var versionName = getVersion(issue.fields.fixVersions);
+                var versionName = getVersion(issue.fields.fixVersions),
+                    priority = getPriority(issue.fields.priority.id);
 
                 html+='<tr onclick="window.open(\'https://privemd.atlassian.net/browse/'+ issue.key +'\')" class="'+ getClass(issue.fields.status.name) +'">';
                 html+='<td>'+ issue.key +'</td>';
+                html+='<td>'+ priority +'</td>';
                 html+='<td>'+ getPlatform(issue.key) +'</td>';
                 html+='<td>'+ issue.fields.summary +'</td>';
                 html+='<td>'+ versionName +'</td>';
