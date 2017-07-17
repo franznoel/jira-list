@@ -58,7 +58,6 @@
     };
 
     var refreshData = function() {
-
         var url = 'https://privemd.atlassian.net/rest/api/2/search',
             jql = '?jql=project%20in%20(PAND%2C%20PANDP%2C%20PIOS%2C%20PIOSP%2C%20PWEB)%20AND%20Sprint%20in%20(openSprints())',
             fields = '&fields=fixVersions,priority,summary,status,timeestimate',
@@ -106,7 +105,9 @@
 
     $('#refresh-data').click(function() {
         refreshData();
-    })
+    });
+
+    refreshData();
 })();
 
 
