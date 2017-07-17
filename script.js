@@ -32,8 +32,16 @@
                 }
             },
             version: function() {
-                var version = this.issue.fields.fixVersions;
-                return (version.length >= 1) ? version[0].name : '';
+                var versions = this.issue.fields.fixVersions;
+                if (versions.length === null) return '';
+
+                var versionHtml = '';
+
+                versions.forEach(function(version) {
+                    versionHtml+= '<span class="label label-warning">' + version.name + '</span>';
+                });
+
+                return versionHtml;
             },
             priority: function() {
                 switch(this.issue.fields.priority.id) {
