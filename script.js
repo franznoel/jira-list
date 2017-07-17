@@ -46,7 +46,7 @@
                 case "5":
                     return '6 Lowest';
                 default:
-                    return '7 Blocker';
+                    return '1 Blocker';
             }
         },
         timeEstimate: function(time) {
