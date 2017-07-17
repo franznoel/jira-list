@@ -33,7 +33,7 @@
 
     var getVersion = function(version) {
         return (version.length >= 1) ? version[0].name : '';
-    }
+    };
 
     var getPriority = function(priority) {
         switch(priority) {
@@ -50,14 +50,15 @@
             default:
                 return 'Blocker';
         }
-    }
+    };
 
     var getTimeEstimate = function(time) {
         if (time === null) return "";
         return Math.floor(time/(3600)) + " hours";
-    }
+    };
 
-    setInterval(function() {
+    var refreshData = function() {
+
         var url = 'https://privemd.atlassian.net/rest/api/2/search',
             jql = '?jql=project%20in%20(PAND%2C%20PANDP%2C%20PIOS%2C%20PIOSP%2C%20PWEB)%20AND%20Sprint%20in%20(openSprints())',
             fields = '&fields=fixVersions,priority,summary,status,timeestimate',
@@ -66,7 +67,7 @@
             query = url+jql+fields+startAt+maxResults;
 
         $.ajax({
-          url: query, //https://privemd.atlassian.net/rest/api/2/project
+          url: query,
           type: 'GET',
           beforeSend: function(xhr){
               xhr.setRequestHeader('Authorization', 'Basic ZnRhbmdsYW86VGlkdXMjITEyMw==');
@@ -100,8 +101,11 @@
             // console.log('Error:', response);
           }
         });
-    },1000);
+    };
 
+    $('#refresh-data').click(function() {
+        refreshData();
+    })
 })();
 
 
