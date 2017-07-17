@@ -64,12 +64,17 @@
                 if (time === null) return "";
                 return Math.floor(time/(3600)) + " hours";
             },
+            assignee: function() {
+                if (this.issue.fields.assignee === null) return '';
+                return this.issue.fields.assignee.displayName;
+            },
             displayIssue: function() {
                 var html = '',
                     versionName = this.version(),
                     priority = this.priority(),
                     platform = this.platform(),
-                    className = this.className()
+                    className = this.className(),
+                    assignee = this.assignee(),
                     hours = this.timeEstimate();
 
                 html+='<tr onclick="window.open(\'https://privemd.atlassian.net/browse/'+ issue.key +'\')" class="'+ className +'">';
@@ -79,6 +84,7 @@
                 html+='<td>'+ this.issue.fields.summary +'</td>';
                 html+='<td>'+ versionName +'</td>';
                 html+='<td>'+ hours +'</td>';
+                html+='<td>'+ assignee +'</td>';
                 html+='<td>'+ this.issue.fields.status.name +'</td>';
                 html+='</tr>';
 
@@ -93,7 +99,7 @@
         data: null,
         url: 'https://privemd.atlassian.net/rest/api/2/search',
         jql: '?jql=project%20in%20(PAND%2C%20PANDP%2C%20PIOS%2C%20PIOSP%2C%20PWEB)%20AND%20Sprint%20in%20(openSprints())',
-        fields: '&fields=fixVersions,priority,summary,status,timeestimate',
+        fields: '&fields=fixVersions,priority,summary,status,timeestimate,assignee',
         startAt: '&startAt=0',
         maxResults: '&maxResults=200',
 
