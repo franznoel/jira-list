@@ -76,6 +76,7 @@
           success(response) {
             var issues = response.issues;
 
+            $('#total-issues').html('Total Issues: '+ issues.length);
             // console.log(issues);
             var html = '';
             issues.forEach(function(issue) {
