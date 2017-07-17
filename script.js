@@ -58,8 +58,15 @@
     }
 
     setInterval(function() {
+        var url = 'https://privemd.atlassian.net/rest/api/2/search',
+            jql = '?jql=project%20in%20(PAND%2C%20PANDP%2C%20PIOS%2C%20PIOSP%2C%20PWEB)%20AND%20Sprint%20in%20(openSprints())',
+            fields = '&fields=fixVersions,priority,summary,status,timeestimate',
+            startAt = '&startAt=0',
+            maxResults = '&maxResults=200',
+            query = url+jql+fields+startAt+maxResults;
+
         $.ajax({
-          url: 'https://privemd.atlassian.net/rest/api/2/search?jql=project%20in%20(PAND%2C%20PANDP%2C%20PIOS%2C%20PIOSP%2C%20PWEB)%20AND%20Sprint%20in%20(openSprints())', //https://privemd.atlassian.net/rest/api/2/project
+          url: query, //https://privemd.atlassian.net/rest/api/2/project
           type: 'GET',
           beforeSend: function(xhr){
               xhr.setRequestHeader('Authorization', 'Basic ZnRhbmdsYW86VGlkdXMjITEyMw==');
