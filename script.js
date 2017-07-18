@@ -107,27 +107,29 @@
             return this.url + this.jql + this.fields + this.startAt + this.maxResults;
         },
 
+        displayAllIssues: function(response) {
+            var issueHtml = '';
+            self.issues.forEach(function(issue) {
+                var issueObject = new Issue(issue);
+                issueHtml+= issueObject.displayIssue();
+            });
+            $('#issues tbody').html('');
+            return issueHtml;
+        },
         refresh: function() {
             var self = this;
 
             $.ajax({
-              url: this.query(),
+              url: self.query(),
               type: 'GET',
               beforeSend: function(xhr){
                   xhr.setRequestHeader('Authorization', 'Basic ZnRhbmdsYW86VGlkdXMjITEyMw==');
                   xhr.setRequestHeader('Content-Type', 'application/json');
               },
-              success: function(response) {
+              success: function() {
                 self.issues = response.issues;
-
+                var issueHtml = displayAllIssues(response);
                 $('#total-issues').html('Total Issues: '+ self.issues.length);
-
-                var issueHtml = '';
-                self.issues.forEach(function(issue) {
-                    var issueObject = new Issue(issue);
-                    issueHtml+= issueObject.displayIssue();
-                });
-                $('#issues tbody').html('');
                 $('#issues tbody').append(issueHtml);
               },
               error: function(response) {
