@@ -27,6 +27,8 @@
                     case 'Development':
                     case 'In Progress':
                         return 'alert alert-warning';
+                    case 'Failed':
+                        return 'alert alert-danger';
                     default:
                         return '';
                 }
