@@ -22,13 +22,15 @@
             className: function () {
                 switch(this.issue.fields.status.name) {
                     case 'Done':
-                        return 'alert alert-success';
+                        return 'success';
                     case 'QA':
                     case 'Development':
                     case 'In Progress':
-                        return 'alert alert-warning';
+                        return 'warning';
+                    case 'Clarification':
+                        return 'info';
                     case 'Failed':
-                        return 'alert alert-danger';
+                        return 'danger';
                     default:
                         return '';
                 }
