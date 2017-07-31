@@ -25,6 +25,7 @@
                         return 'success';
                     case 'QA':
                     case 'Development':
+                    case 'Building':
                     case 'In Progress':
                         return 'warning';
                     case 'Clarification':
