@@ -114,6 +114,14 @@
             }
         },
 
+        setErrorStatus: function(errorStatus) {
+            localStorage.setItem('credentialsError',errorStatus);
+        },
+
+        getErrorStatus: function() {
+            return localStorage.getItem('credentialsError');
+        },
+
         exists: function() {
             // console.log('Does it exists?');
             return (!this.getSavedCredential()) ? false : true;
@@ -147,7 +155,7 @@
         refresh: function(credentials) {
             var self = this;
 
-            if (Credentials.exists()) {
+            if (Credentials.exists() && Credentials.getErrorStatus() !== 'true') {
                 // console.log('Exists!');
                 // Load issues
                 $.ajax({
@@ -162,12 +170,19 @@
                     var issueHtml = self.displayAllIssues(response);
                     $('#total-issues').html('Total Issues: '+ self.issues.length);
                     $('#issues tbody').append(issueHtml);
+                    Credentials.setErrorStatus(false);
                   },
                   error: function(response) {
                     console.log("Error!");
+                    Credentials.setErrorStatus(true);
                     $('#issues tbody').html('<tr class="danger"><td colspan="8" style="text-align:center;">You entered the wrong credentials. Please enter again.</td></tr>');
                   }
                 });
+            } else if (Credentials.getErrorStatus() === 'true') {
+                console.log('Has error!');
+                $('#issues tbody').html('<tr class="danger"><td colspan="8" style="text-align:center;">You entered the wrong credentials. Please enter again.</td></tr>');
+                Credentials.set();
+                Credentials.setErrorStatus(false);
             } else {
                 console.log('No credentials!');
                 Credentials.set();
