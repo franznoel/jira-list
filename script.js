@@ -100,9 +100,28 @@
         return issueObject;
     };
 
+    var Credentials = {
+        getSavedCredential: function() {
+            return localStorage.getItem('credentials');
+        },
+
+        set: function() {
+            var username = $('#username').val(),
+                password = $('#password').val();
+
+            if (username !== '' && password !== '') {
+                localStorage.setItem('credentials', btoa(username+':'+password));
+            }
+        },
+
+        exists: function() {
+            // console.log('Does it exists?');
+            return (!this.getSavedCredential()) ? false : true;
+        }
+    }
+
+
     var issues = {
-        credentials: null,
-        data: null,
         url: 'https://privemd.atlassian.net/rest/api/2/search',
         jql: '?jql=project%20in%20(PAND%2C%20PANDP%2C%20PIOS%2C%20PIOSP%2C%20PWEB)%20AND%20Sprint%20in%20(openSprints())',
         fields: '&fields=fixVersions,priority,summary,status,timeestimate,assignee',
@@ -122,39 +141,49 @@
             $('#issues tbody').html('');
             return issueHtml;
         },
+
         refresh: function(credentials) {
             var self = this;
 
-            $.ajax({
-              url: self.query(),
-              type: 'GET',
-              beforeSend: function(xhr){
-                  xhr.setRequestHeader('Authorization', 'Basic ' + credentials);
-                  xhr.setRequestHeader('Content-Type', 'application/json');
-              },
-              success: function(response) {
-                self.issues = response.issues;
-                var issueHtml = self.displayAllIssues(response);
-                $('#total-issues').html('Total Issues: '+ self.issues.length);
-                $('#issues tbody').append(issueHtml);
-              },
-              error: function(response) {
-                console.log("Error!");
-                // console.log('Error:', response);
-              }
-            });
+            if (Credentials.exists()) {
+                // console.log('Exists!');
+                // Load issues
+                $.ajax({
+                  url: self.query(),
+                  type: 'GET',
+                  beforeSend: function(xhr){
+                      xhr.setRequestHeader('Authorization', 'Basic ' + Credentials.getSavedCredential());
+                      xhr.setRequestHeader('Content-Type', 'application/json');
+                  },
+                  success: function(response) {
+                    self.issues = response.issues;
+                    var issueHtml = self.displayAllIssues(response);
+                    $('#total-issues').html('Total Issues: '+ self.issues.length);
+                    $('#issues tbody').append(issueHtml);
+                  },
+                  error: function(response) {
+                    console.log("Error!");
+                    // console.log('Error:', response);
+                  }
+                });
+            } else {
+                console.log('No credentials!');
+                Credentials.set();
+                if (Credentials.exists()) {
+                    this.refresh();
+                }
+            }
+
+
         }
     };
 
     $('#refresh-data').click(function() {
-        var username = $('#username').val(),
-            password = $('#password').val();
-
-        var credentials = btoa(username+':'+password);
-        issues.refresh(credentials);
+        // console.log('Refresh');
+        issues.refresh();
     });
 
-
+    // console.log('Load');
     issues.refresh();
 })();
 

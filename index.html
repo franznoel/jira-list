@@ -17,10 +17,10 @@
                 <a href="" class="navbar-brand">Jira List</a>
                 <form class="navbar-form navbar-left">
                     <div class="form-group">
-                        <input type="text" id="username" name="username" class="form-control" value="" placeholder="Username" />
+                        <input type="text" id="username" name="username" class="form-control" value="" placeholder="Username" autocomplete="off" />
                     </div>
                     <div class="form-group">
-                        <input type="password" id="password" name="password" class="form-control" value="" placeholder="Password" />
+                        <input type="password" id="password" name="password" class="form-control" value="" placeholder="Password" autocomplete="off" />
                     </div>
                     <input id="refresh-data" type="button" class="btn btn-default" value="Refresh" />
                 </form>
@@ -55,6 +55,9 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <tr>
+                                <td colspan="8" style="text-align:center;">Please enter your credentials to load.</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
