@@ -115,7 +115,7 @@
         },
 
         delete: function() {
-            console.log('Deleting...');
+            // console.log('Deleting...');
             localStorage.removeItem('credentials');
         },
 
@@ -151,7 +151,7 @@
             var self = this;
 
             if (Credentials.exists()) {
-                console.log('Exists!');
+                // console.log('Exists!');
                 $('#login-form').hide();
                 $('#logout-container').show();
 
@@ -179,7 +179,7 @@
                   }
                 });
             } else {
-                console.log('No credentials!');
+                // console.log('No credentials!');
                 Credentials.set();
                 $('#login-form').show();
                 $('#logout-container').hide();
@@ -187,13 +187,10 @@
                     this.refresh();
                 }
             }
-
-
         }
     };
 
-    $('#refresh-data').click(function() {
-        console.log('Refresh');
+    $('#login-button').click(function() {
         issues.refresh();
     });
 
@@ -202,6 +199,12 @@
         window.open(window.location.href,"_self");
     });
 
-    console.log('Load');
+    $('#refresh-data').click(function() {
+        // console.log('Refresh');
+        window.open(window.location.href,"_self");
+    });
+
+
+    // console.log('Load');
     issues.refresh();
 })();
