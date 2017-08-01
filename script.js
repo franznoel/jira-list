@@ -118,6 +118,8 @@
             // console.log('Does it exists?');
             return (!this.getSavedCredential()) ? false : true;
         }
+
+
     }
 
 
@@ -163,7 +165,7 @@
                   },
                   error: function(response) {
                     console.log("Error!");
-                    // console.log('Error:', response);
+                    $('#issues tbody').html('<tr class="danger"><td colspan="8" style="text-align:center;">You entered the wrong credentials. Please enter again.</td></tr>');
                   }
                 });
             } else {
