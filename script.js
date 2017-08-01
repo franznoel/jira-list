@@ -101,6 +101,7 @@
     };
 
     var issues = {
+        credentials: null,
         data: null,
         url: 'https://privemd.atlassian.net/rest/api/2/search',
         jql: '?jql=project%20in%20(PAND%2C%20PANDP%2C%20PIOS%2C%20PIOSP%2C%20PWEB)%20AND%20Sprint%20in%20(openSprints())',
@@ -121,14 +122,14 @@
             $('#issues tbody').html('');
             return issueHtml;
         },
-        refresh: function() {
+        refresh: function(credentials) {
             var self = this;
 
             $.ajax({
               url: self.query(),
               type: 'GET',
               beforeSend: function(xhr){
-                  xhr.setRequestHeader('Authorization', 'Basic ZnRhbmdsYW86VGlkdXMjITEyMw==');
+                  xhr.setRequestHeader('Authorization', 'Basic ' + credentials);
                   xhr.setRequestHeader('Content-Type', 'application/json');
               },
               success: function(response) {
@@ -146,8 +147,13 @@
     };
 
     $('#refresh-data').click(function() {
-        issues.refresh();
+        var username = $('#username').val(),
+            password = $('#password').val();
+
+        var credentials = btoa(username+':'+password);
+        issues.refresh(credentials);
     });
+
 
     issues.refresh();
 })();

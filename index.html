@@ -12,9 +12,21 @@
         <link rel="stylesheet" href="styles.css" />
     </head>
     <body>
+        <nav class="navbar navbar-default navbar-static-top">
+            <div class="container-fluid">
+                <a href="" class="navbar-brand">Jira List</a>
+                <form class="navbar-form navbar-left">
+                    <div class="form-group">
+                        <input type="text" id="username" name="username" class="form-control" value="" placeholder="Username" />
+                    </div>
+                    <div class="form-group">
+                        <input type="password" id="password" name="password" class="form-control" value="" placeholder="Password" />
+                    </div>
+                    <input id="refresh-data" type="button" class="btn btn-default" value="Refresh" />
+                </form>
+            </div>
+        </nav>
         <div class="container-fluid">
-            <h3>Jira List</h3>
-            <button id="refresh-data" class="btn btn-default btn-sm">Refresh</button>
             <p id="total-issues">Total Issues: </p>
             <details>
                 <summary>Click here for instructions</summary>
