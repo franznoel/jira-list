@@ -114,6 +114,11 @@
             }
         },
 
+        delete: function() {
+            console.log('Deleting...');
+            localStorage.removeItem('credentials');
+        },
+
         exists: function() {
             // console.log('Does it exists?');
             return (!this.getSavedCredential()) ? false : true;
@@ -146,7 +151,10 @@
             var self = this;
 
             if (Credentials.exists()) {
-                // console.log('Exists!');
+                console.log('Exists!');
+                $('#login-form').hide();
+                $('#logout-container').show();
+
                 // Load issues
                 $.ajax({
                   url: self.query(),
@@ -161,14 +169,20 @@
                     $('#total-issues').html('Total Issues: '+ self.issues.length);
                     $('#issues tbody').append(issueHtml);
                   },
+                  statusCode: {
+                    401: function() {
+                        $('#issues tbody').html('<tr class="danger"><td colspan="8" style="text-align:center">401 Error. Unauthorized access!</td></tr>');
+                    }
+                  },
                   error: function(response) {
-                    console.log("Error!");
-                    // console.log('Error:', response);
+                    console.log(response.status + " Error!");
                   }
                 });
             } else {
                 console.log('No credentials!');
                 Credentials.set();
+                $('#login-form').show();
+                $('#logout-container').hide();
                 if (Credentials.exists()) {
                     this.refresh();
                 }
@@ -179,13 +193,15 @@
     };
 
     $('#refresh-data').click(function() {
-        // console.log('Refresh');
+        console.log('Refresh');
         issues.refresh();
     });
 
-    // console.log('Load');
+    $('#logout-button').click(function() {
+        Credentials.delete();
+        window.open(window.location.href,"_self");
+    });
+
+    console.log('Load');
     issues.refresh();
 })();
-
-
-

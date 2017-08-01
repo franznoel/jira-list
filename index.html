@@ -15,14 +15,17 @@
         <nav class="navbar navbar-default navbar-static-top">
             <div class="container-fluid">
                 <a href="" class="navbar-brand">Jira List</a>
-                <form class="navbar-form navbar-left">
+                <div id="logout-container" class="navbar-form navbar-left" style="display:none;">
+                    <input id="logout-button"  type="button" class="btn btn-primary" value="Logout" />
+                </div>
+                <form id="login-form" class="navbar-form navbar-left">
                     <div class="form-group">
                         <input type="text" id="username" name="username" class="form-control" value="" placeholder="Username" autocomplete="off" />
                     </div>
                     <div class="form-group">
                         <input type="password" id="password" name="password" class="form-control" value="" placeholder="Password" autocomplete="off" />
                     </div>
-                    <input id="refresh-data" type="button" class="btn btn-default" value="Refresh" />
+                    <input id="refresh-data" type="button" class="btn btn-primary" value="Login" />
                 </form>
             </div>
         </nav>
