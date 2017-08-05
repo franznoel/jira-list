@@ -16,7 +16,7 @@
                     case 'PIOSP':
                         return 'iOS Patient';
                     default:
-                        return '';
+                        return 'Server Issues';
                 }
             },
             className: function () {
@@ -128,7 +128,7 @@
 
     var issues = {
         url: 'https://privemd.atlassian.net/rest/api/2/search',
-        jql: '?jql=project%20in%20(PAND%2C%20PANDP%2C%20PIOS%2C%20PIOSP%2C%20PWEB)%20AND%20Sprint%20in%20(openSprints())',
+        jql: '?jql=project%20in%20(PSI%2C%20PAND%2C%20PANDP%2C%20PIOS%2C%20PIOSP%2C%20PWEB)%20AND%20Sprint%20in%20(openSprints())',
         fields: '&fields=fixVersions,priority,summary,status,timeestimate,assignee',
         startAt: '&startAt=0',
         maxResults: '&maxResults=200',
