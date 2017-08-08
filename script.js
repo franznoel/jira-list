@@ -131,7 +131,7 @@
         jql: null,
         fields: '&fields=fixVersions,priority,summary,status,timeestimate,assignee',
         startAt: '&startAt=0',
-        maxResults: '&maxResults=200',
+        maxResults: '&maxResults=1000',
 
         query: function() {
             var sprintStatus = $('#sprintStatus').val();
@@ -153,7 +153,6 @@
         },
 
         changeSprint: function() {
-            console.log(this.sprintStatus);
             this.query();
             this.refresh();
         },
