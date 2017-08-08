@@ -128,13 +128,34 @@
 
     var issues = {
         url: 'https://privemd.atlassian.net/rest/api/2/search',
-        jql: '?jql=project%20in%20(PSI%2C%20PAND%2C%20PANDP%2C%20PIOS%2C%20PIOSP%2C%20PWEB)%20AND%20Sprint%20in%20(openSprints())',
+        jql: null,
         fields: '&fields=fixVersions,priority,summary,status,timeestimate,assignee',
         startAt: '&startAt=0',
         maxResults: '&maxResults=200',
 
         query: function() {
-            return this.url + this.jql + this.fields + this.startAt + this.maxResults;
+            var sprintStatus = $('#sprintStatus').val();
+            // console.log(sprintStatus);
+            switch (sprintStatus) {
+                case 'Future Sprints':
+                    this.jql = '?jql=project%20in%20(PSI%2C%20PAND%2C%20PANDP%2C%20PIOS%2C%20PIOSP%2C%20PWEB)%20AND%20Sprint%20in%20(futureSprints())';
+                    break;
+                case 'Closed Sprints':
+                    this.jql = '?jql=project%20in%20(PSI%2C%20PAND%2C%20PANDP%2C%20PIOS%2C%20PIOSP%2C%20PWEB)%20AND%20Sprint%20in%20(closedSprints())';
+                    break;
+                default:
+                    this.jql = '?jql=project%20in%20(PSI%2C%20PAND%2C%20PANDP%2C%20PIOS%2C%20PIOSP%2C%20PWEB)%20AND%20Sprint%20in%20(openSprints())';
+                    break;
+            }
+
+            var query = this.url + this.jql + this.fields + this.startAt + this.maxResults;
+            return query;
+        },
+
+        changeSprint: function() {
+            console.log(this.sprintStatus);
+            this.query();
+            this.refresh();
         },
 
         displayAllIssues: function(response) {
@@ -202,6 +223,10 @@
     $('#refresh-data').click(function() {
         // console.log('Refresh');
         window.open(window.location.href,"_self");
+    });
+
+    $('#sprintStatus').change(function() {
+        issues.changeSprint();
     });
 
 
