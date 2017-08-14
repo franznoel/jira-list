@@ -80,6 +80,7 @@
                     platform = this.platform(),
                     className = this.className(),
                     assignee = this.assignee(),
+                    labels = this.issue.fields.labels;
                     hours = this.timeEstimate();
 
                 html+='<tr onclick="window.open(\'https://privemd.atlassian.net/browse/'+ issue.key +'\')" class="'+ className +'">';
@@ -88,6 +89,7 @@
                 html+='<td>'+ platform +'</td>';
                 html+='<td>'+ this.issue.fields.summary +'</td>';
                 html+='<td>'+ versionName +'</td>';
+                html+=`<td><span class="label label-info">${labels}</span></td>`;
                 html+='<td>'+ hours +'</td>';
                 html+='<td>'+ assignee +'</td>';
                 html+='<td>'+ this.issue.fields.status.name +'</td>';
@@ -137,7 +139,17 @@
             var sprintStatus = $('#sprintStatus').val(),
                 projectStatus = $('#projectFilter').val(),
                 sprint = '',
-                project = '';
+                project = '',
+                label = '';
+
+            // console.log(this.label);
+
+            if ( this.label == '' || this.label == undefined ) {
+                label = '';
+            } else {
+                $('#label-buttons').hide();
+                label = ` AND labels=${this.label}`;
+            }
 
             switch (projectStatus) {
                 case 'PSI':
@@ -176,8 +188,8 @@
                     break;
             }
 
-            this.jql = '?jql=' + encodeURIComponent(project) + encodeURIComponent(sprint);
-            // console.log(project, sprint);
+            this.jql = '?jql=' + encodeURIComponent(project) + encodeURIComponent(sprint) + encodeURI(label);
+            // console.log(project, sprint, label);
             // console.log(this.jql);
 
             var query = this.url + this.jql + this.fields + this.startAt + this.maxResults;
@@ -187,6 +199,22 @@
         changeSprint: function() {
             this.query();
             this.refresh();
+            this.label = '';
+            $('#label-buttons').html('');
+        },
+
+        getAllLabels: function(issues) {
+            var labels = [];
+            issues.forEach(function(issue) {
+                issue.fields.labels.forEach(function(label) {
+                    if ( !labels.includes(label) ) {
+                        var labelButtonHtml = `<button class="btn btn-default label-button" value="${label}">${label}</button>`;
+                        $('#label-buttons').append(labelButtonHtml);
+                        labels.push(label);
+                    }
+                });
+            });
+            // console.log(labels);
         },
 
         displayAllIssues: function(issues) {
@@ -217,6 +245,7 @@
                   },
                   success: function(response) {
                     self.issues = response.issues;
+                    var labels = self.getAllLabels(self.issues);
                     var issueHtml = self.displayAllIssues(self.issues);
                     $('#total-issues').html('Total Issues: '+ self.issues.length);
                     $('#issues tbody').append(issueHtml);
@@ -244,6 +273,7 @@
 
     $('#login-button').click(function() {
         issues.refresh();
+        $('#label-buttons').hide();
     });
 
     $('#logout-button').click(function() {
@@ -262,6 +292,14 @@
 
     $('#projectFilter').change(function() {
         issues.changeSprint();
+    });
+
+    $(document).on('click','.label-button', function(e) {
+        $('#label-buttons').html('');
+        issues.label = this.value;
+        // console.log(issues.label);
+        issues.query();
+        issues.refresh();
     });
 
 

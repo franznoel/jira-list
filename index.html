@@ -17,7 +17,6 @@
                 <a href="" class="navbar-brand">Jira List</a>
                 <div id="logout-container" class="navbar-form navbar-left" style="display:none;">
                     <input id="logout-button"  type="button" class="btn btn-primary" value="Logout" />
-                    <input id="refresh-data"  type="button" class="btn btn-default" value="Reset" />
                     <select id="sprintStatus" class="form-control">
                         <option>Open Sprints</option>
                         <option>Future Sprints</option>
@@ -32,6 +31,8 @@
                         <option value="PIOS">iOS Doctor</option>
                         <option value="PIOSP">iOS Patient</option>
                     </select>
+                    <div id="label-buttons" class="btn-group"></div>
+                    <input id="refresh-data"  type="button" class="btn btn-default" value="Reset" />
                 </div>
                 <form id="login-form" class="navbar-form navbar-left">
                     <div class="form-group">
@@ -67,6 +68,7 @@
                                 <th>Platform</th>
                                 <th>Name</th>
                                 <th>Version</th>
+                                <th>Labels</th>
                                 <th>Hours</th>
                                 <th>Assignee</th>
                                 <th>Status</th>
@@ -74,7 +76,7 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td colspan="8" style="text-align:center;">Please enter your credentials to load.</td>
+                                <td colspan="9" style="text-align:center;">Please enter your credentials to load.</td>
                             </tr>
                         </tbody>
                     </table>
