@@ -129,7 +129,7 @@
     var issues = {
         url: 'https://privemd.atlassian.net/rest/api/2/search',
         jql: null,
-        fields: '&fields=fixVersions,priority,summary,status,timeestimate,assignee',
+        fields: '&fields=fixVersions,priority,summary,labels,status,timeestimate,assignee',
         startAt: '&startAt=0',
         maxResults: '&maxResults=1000',
 
@@ -189,9 +189,9 @@
             this.refresh();
         },
 
-        displayAllIssues: function(response) {
+        displayAllIssues: function(issues) {
             var issueHtml = '';
-            response.issues.forEach(function(issue) {
+            issues.forEach(function(issue) {
                 var issueObject = new Issue(issue);
                 issueHtml+= issueObject.displayIssue();
             });
@@ -217,7 +217,7 @@
                   },
                   success: function(response) {
                     self.issues = response.issues;
-                    var issueHtml = self.displayAllIssues(response);
+                    var issueHtml = self.displayAllIssues(self.issues);
                     $('#total-issues').html('Total Issues: '+ self.issues.length);
                     $('#issues tbody').append(issueHtml);
                   },
