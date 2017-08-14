@@ -134,19 +134,51 @@
         maxResults: '&maxResults=1000',
 
         query: function() {
-            var sprintStatus = $('#sprintStatus').val();
+            var sprintStatus = $('#sprintStatus').val(),
+                projectStatus = $('#projectFilter').val(),
+                sprint = '',
+                project = '';
+
+            switch (projectStatus) {
+                case 'PSI':
+                    project = 'project IN (PSI)';
+                    break;
+                case 'PWEB':
+                    project = 'project IN (PWEB)';
+                    break;
+                case 'PAND':
+                    project = 'project IN (PAND)';
+                    break;
+                case 'PANDP':
+                    project = 'project IN (PANDP)';
+                    break;
+                case 'PIOS':
+                    project = 'project IN (PIOS)';
+                    break;
+                case 'PIOSP':
+                    project = 'project IN (PIOSP)';
+                    break;
+                default:
+                    project = 'project IN (PSI, PAND, PANDP, PIOS, PIOSP, PWEB)';
+                    break;
+            }
+
             // console.log(sprintStatus);
             switch (sprintStatus) {
                 case 'Future Sprints':
-                    this.jql = '?jql=project%20in%20(PSI%2C%20PAND%2C%20PANDP%2C%20PIOS%2C%20PIOSP%2C%20PWEB)%20AND%20Sprint%20in%20(futureSprints())';
+                    sprint = ' AND Sprint IN futureSprints()';
                     break;
                 case 'Closed Sprints':
-                    this.jql = '?jql=project%20in%20(PSI%2C%20PAND%2C%20PANDP%2C%20PIOS%2C%20PIOSP%2C%20PWEB)%20AND%20Sprint%20in%20(closedSprints())';
+                    sprint = ' AND Sprint IN closedSprints()';
                     break;
                 default:
-                    this.jql = '?jql=project%20in%20(PSI%2C%20PAND%2C%20PANDP%2C%20PIOS%2C%20PIOSP%2C%20PWEB)%20AND%20Sprint%20in%20(openSprints())';
+                    sprint = ' AND Sprint IN openSprints()';
                     break;
             }
+
+            this.jql = '?jql=' + encodeURIComponent(project) + encodeURIComponent(sprint);
+            // console.log(project, sprint);
+            // console.log(this.jql);
 
             var query = this.url + this.jql + this.fields + this.startAt + this.maxResults;
             return query;
@@ -225,6 +257,10 @@
     });
 
     $('#sprintStatus').change(function() {
+        issues.changeSprint();
+    });
+
+    $('#projectFilter').change(function() {
         issues.changeSprint();
     });
 
