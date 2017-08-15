@@ -1,7 +1,11 @@
 #issues tbody tr {
     cursor:pointer;
 }
+#issues tbody td {
+    white-space: nowrap;
+}
 .plugin-link {
     text-decoration: underline;
 }
+
 
