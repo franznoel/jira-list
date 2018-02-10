@@ -252,7 +252,7 @@
                   },
                   statusCode: {
                     401: function() {
-                        $('#issues tbody').html('<tr class="danger"><td colspan="8" style="text-align:center">401 Error. Unauthorized access!</td></tr>');
+                        $('#issues tbody').html('<tr class="danger"><td colspan="9" style="text-align:center">401 Error. Unauthorized access!</td></tr>');
                     }
                   },
                   error: function(response) {
